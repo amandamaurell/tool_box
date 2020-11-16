@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Import from the standard library
+from os.path import split
+import argparse
+import pandas as pd
+
+# Import from tool_box
+import tool_box
+from tool_box.lib import clean_data
+
+if __name__ == '__main__':
+    usage = '%(prog)s'
+    description = 'tool_box_description'
+    # https://docs.python.org/3/library/argparse.html
+    # https://docs.python.org/3/howto/argparse.html
+    parser = argparse.ArgumentParser(description=description, usage=usage)
+    args = parser.parse_args()
+    folder_source, _ = split(tool_box.__file__)
+    df = pd.read_csv('{}/data/data.csv.gz'.format(folder_source))
+    print('  tool_box/data/data.csv.gz Loaded')
+
+    res = clean_data(df)
+    res.to_csv('out.csv', index=False)
+    print('==> out.csv MADE ')
+    print('    shape is {}'.format(res.shape))
